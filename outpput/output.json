@@ -1,0 +1,24 @@
+{
+    "output": {
+        "result1": 3,
+        "result2": 12
+    },
+    "options_log": {
+        "example_function_1": {
+            "args": [
+                1,
+                3
+            ],
+            "kwargs": {},
+            "call_count": 2
+        },
+        "example_function_2": {
+            "args": [
+                3,
+                4
+            ],
+            "kwargs": {},
+            "call_count": 1
+        }
+    }
+}
