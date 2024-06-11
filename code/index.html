@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Count and Author Identification</title>
+</head>
+<body>
+    <h1>Word Count and Author Identification</h1>
+    <form action="/compare" method="post" enctype="multipart/form-data">
+        <input type="file" name="files" accept=".txt" multiple required>
+        <button type="submit" name="action" value="analyze">Analyze Word Counts</button>
+        <button type="submit" name="action" value="identify">Identify Author</button>
+        <button type="submit" name="action" value="search">Search word</button>
+        <label for="search_word">検索する単語を入力してください</label>
+        <input type="text" id="search_word" name="search_word">
+        <button type="submit" name="action" value="save">Save Results</button>
+    </form>
+
+    {% if action == 'analyze' and results %}
+        <h2>Word Counts</h2>
+        {% for filename, word_counts in results %}
+            <h3>{{ filename }}</h3>
+            <ul>
+                {% for word, count in word_counts %}
+                    <li>{{ word }}: {{ count }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% elif action == 'identify' and similarities %}
+        <h2>Author Identification</h2>
+        <ul>
+            {% for texts, similarity, same_author in similarities %}
+                <li>{{ texts }}: Similarity = {{ similarity }}{% if same_author %} (Same author){% else %} (Different authors){% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% elif action == 'search' and results %}
+        <h2>Search Results</h2>
+        {% for filename, contexts in results %}
+            <h3>{{ filename }}</h3>
+            <ul>
+                {% for left_context, search_term, right_context in contexts %}
+                    <li>{{ left_context }} <strong>{{ search_term }}</strong> {{ right_context }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
